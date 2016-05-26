@@ -1,0 +1,28 @@
+create database dbsender character set utf8;
+GRANT ALL PRIVILEGES ON *.* TO senderadmin@localhost IDENTIFIED BY 'q7a12hj' WITH GRANT OPTION;
+
+use dbsender;
+
+create table User (id bigint not null auto_increment primary key,login varchar(32) not null,password varchar(32),name varchar(32),ip varchar(16), port int, status smallint not null default 0, connected_on timestamp);
+create table contact_list (id bigint not null, contact_id bigint not null, accepted smallint not null default 0);
+alter table contact_list add primary key pk_contact_list(id, contact_id);
+alter table contact_list add FOREIGN KEY fk_cl_owner(id) REFERENCES user (ID);
+alter table contact_list add FOREIGN KEY fk_cl_contact(contact_id) REFERENCES user (ID);
+alter table user add column email varchar(64);
+
+insert into user values(1,'slava','220898','Slava Sidorenko', '192.168.0.105', 3033, 0, current_timestamp);
+insert into user values(2,'oleg','120701','Oleg SidorenkoO', '192.168.0.113', 3033, 0, current_timestamp);
+insert into user values(3,'oleg5','1207011','Oleg SidorenkoO', '192.168.0.113', 3033, 0, current_timestamp);
+
+
+запрос из контакт-листа:
+select u.* from user u inner join contact_list cl on cl.contact_id = u.id where cl.id = 1;
+
+
+ASender.Thread.Connection.Socket.Binding.PeerIP;
+
+
+
+insert into contact_list (id, contact_id) values(1, 2);
+
+insert into contact_list(id, contact_id) select u1.id, u2.id from user u1 left join user u2 on u2.login = 'oleg' where u1.login = 'slava';
